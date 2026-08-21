@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:;" />
+  <title>GuaFlow</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="brand">
+        <div class="brand-dot"></div>
+        <div>
+          <div class="brand-name">GuaFlow</div>
+          <div class="brand-tag">Private voice dictation</div>
+        </div>
+      </div>
+      <ul class="nav">
+        <li data-tab="home" class="active">Dictate</li>
+        <li data-tab="models">Models</li>
+        <li data-tab="dictionary">Dictionary</li>
+        <li data-tab="history">History</li>
+        <li data-tab="settings">Settings</li>
+        <li data-tab="privacy">Privacy</li>
+      </ul>
+      <div class="local-badge" id="localBadge" title="All processing happens on this device">
+        <span class="badge-dot"></span>
+        <span id="badgeText">Processing on this Mac</span>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="content">
+      <!-- HOME -->
+      <section class="tab" id="tab-home">
+        <header class="page-head">
+          <h1>Dictate</h1>
+          <div class="status-chip" id="statusChip"><span class="chip-dot"></span><span id="statusText">Local · Idle</span></div>
+        </header>
+
+        <div class="hero">
+          <div class="hero-key" id="hotkeyDisplay">⌥ Space</div>
+          <p class="hero-sub">Press your shortcut, speak, press it again. Polished text appears at your cursor — all on this device.</p>
+          <div class="hero-row" id="notReadyRow" hidden>
+            <span class="warn">Models not downloaded.</span>
+            <button class="btn primary" data-goto="models">Set up models</button>
+          </div>
+        </div>
+
+        <div class="card demo-card">
+          <h3>Try the cleanup (no mic needed)</h3>
+          <p class="muted">See how raw speech becomes clean text. Runs fully locally.</p>
+          <textarea id="demoInput" rows="3">Hey um actually wait let's do Thursday no sorry Friday because John's out Thursday</textarea>
+          <div class="demo-actions">
+            <button class="btn primary" id="runDemoBtn">Clean it up →</button>
+            <span class="engine-tag" id="demoEngine"></span>
+          </div>
+          <div class="demo-output" id="demoOutput" hidden>
+            <div class="io-label">Result</div>
+            <div class="io-text" id="demoResult"></div>
+            <div class="processed">Processed locally ✓</div>
+          </div>
+        </div>
+
+        <div class="card" id="lastCard" hidden>
+          <h3>Last dictation</h3>
+          <div class="io-text" id="lastText"></div>
+          <div class="last-meta" id="lastMeta"></div>
+          <button class="btn ghost" id="undoBtn">Undo insertion (⌘Z)</button>
+        </div>
+      </section>
+
+      <!-- MODELS -->
+      <section class="tab" id="tab-models" hidden>
+        <header class="page-head"><h1>Models</h1></header>
+        <div class="card" id="hwCard">
+          <h3>Your hardware</h3>
+          <div id="hwInfo" class="muted">Detecting…</div>
+          <div id="recommendation" class="recommend"></div>
+        </div>
+        <div id="tierList"></div>
+      </section>
+
+      <!-- DICTIONARY -->
+      <section class="tab" id="tab-dictionary" hidden>
+        <header class="page-head"><h1>Personal dictionary</h1></header>
+        <p class="muted">Teach GuaFlow how to spell names, acronyms and technical terms. Stored only on this Mac.</p>
+        <div class="card">
+          <div class="dict-form">
+            <input id="dictSpoken" placeholder="Spoken (e.g. cube control)" />
+            <span class="arrow">→</span>
+            <input id="dictWritten" placeholder="Written (e.g. kubectl)" />
+            <label class="cs"><input type="checkbox" id="dictCase" /> Case-sensitive</label>
+            <button class="btn primary" id="dictAdd">Add</button>
+          </div>
+        </div>
+        <table class="dict-table">
+          <thead><tr><th>Spoken</th><th>Written</th><th></th></tr></thead>
+          <tbody id="dictBody"></tbody>
+        </table>
+      </section>
+
+      <!-- HISTORY -->
+      <section class="tab" id="tab-history" hidden>
+        <header class="page-head">
+          <h1>History</h1>
+          <button class="btn danger" id="clearHistory">Delete all</button>
+        </header>
+        <div id="historyDisabled" class="card muted" hidden>
+          History is off. Enable it in Settings to keep a local, encrypted log of recent dictations.
+        </div>
+        <div id="historyList"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="tab" id="tab-settings" hidden>
+        <header class="page-head"><h1>Settings</h1></header>
+        <div id="settingsBody"></div>
+      </section>
+
+      <!-- PRIVACY -->
+      <section class="tab" id="tab-privacy" hidden>
+        <header class="page-head"><h1>Privacy</h1></header>
+        <div class="card">
+          <h3>Privacy by architecture, not by policy</h3>
+          <ul class="privacy-list">
+            <li>✓ Voice audio is captured, transcribed and cleaned entirely on this device.</li>
+            <li>✓ No raw audio or transcript is ever sent to a server.</li>
+            <li>✓ All network requests are blocked except model downloads you initiate.</li>
+            <li>✓ Works fully offline once models are downloaded.</li>
+            <li>✓ History is off by default and encrypted at rest when enabled.</li>
+          </ul>
+          <div class="netstatus" id="netStatus"></div>
+          <label class="toggle-row">
+            <span><strong>Network kill-switch</strong><br /><span class="muted">Block all network activity, including model downloads.</span></span>
+            <input type="checkbox" id="killSwitch" />
+          </label>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Onboarding overlay -->
+  <div id="onboarding" class="overlay" hidden></div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
