@@ -82,21 +82,26 @@ class AsrEngine {
       child.on('error', reject);
       child.on('close', (code) => {
         // whisper.cpp writes the transcript to <wav>.txt with -otxt.
-        const txtPath = wavPath + '.txt';
-        let fileText = '';
-        try {
-          if (fs.existsSync(txtPath)) {
-            fileText = fs.readFileSync(txtPath, 'utf8');
-            fs.rmSync(txtPath, { force: true }); // §29 minimize disk writes
-          }
-        } catch (_) { /* ignore */ }
-        if (code === 0) {
-          resolve(fileText || stdout);
-        } else {
+        const fileText = AsrEngine._readTranscriptFile(wavPath + '.txt');
+        if (code !== 0) {
           reject(new Error(`whisper exited ${code}: ${stderr.slice(0, 500)}`));
+          return;
         }
+        resolve(fileText || stdout);
       });
     });
+  }
+
+  /** Read and remove the transcript file whisper.cpp emits with -otxt. */
+  static _readTranscriptFile(txtPath) {
+    try {
+      if (!fs.existsSync(txtPath)) return '';
+      const text = fs.readFileSync(txtPath, 'utf8');
+      fs.rmSync(txtPath, { force: true }); // §29 minimize disk writes
+      return text;
+    } catch (_) {
+      return '';
+    }
   }
 }
 
