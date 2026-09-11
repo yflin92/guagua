@@ -31,7 +31,7 @@ class DictationController {
     this.asr = deps.asr;
     this.llm = deps.llm;
     this.store = deps.store;
-    this.tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'guaflow-'));
+    this.tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'guagua-'));
   }
 
   /** Rebind engines after the active tier / model changes. */

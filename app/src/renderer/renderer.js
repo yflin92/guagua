@@ -1,8 +1,8 @@
 'use strict';
 
-/* GuaFlow main-window UI controller. Pure orchestration over the preload API. */
+/* Guagua main-window UI controller. Pure orchestration over the preload API. */
 
-const g = window.guaflow;
+const g = window.guagua;
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
@@ -167,11 +167,18 @@ async function downloadTier(tierId, btn) {
   }
 }
 
+// Single, module-level progress subscription. It updates whichever surface is
+// live — the Models screen bar/button and/or the onboarding step's bar/button.
 g.onDownloadProgress(({ tierId, pct, received, total }) => {
   const prog = $(`#prog-${tierId}`);
   if (prog) { prog.hidden = false; prog.firstElementChild.style.width = `${pct}%`; }
   const btn = $(`#actions-${tierId} button`);
   if (btn) btn.textContent = `${pct}% (${fmtGB(received)}/${fmtGB(total)})`;
+
+  const obBar = $('#ob-prog');
+  if (obBar) { obBar.hidden = false; obBar.firstElementChild.style.width = `${pct}%`; }
+  const obBtn = $('#obDownload');
+  if (obBtn) obBtn.textContent = `Downloading ${pct}% (${fmtGB(received)}/${fmtGB(total)})`;
 });
 
 function hardwareHtml(hw) {
@@ -371,10 +378,10 @@ function accelFromEvent(e) {
 // ---- onboarding (§36) ------------------------------------------------------
 
 const OB_STEPS = [
-  { emoji: '🔒', title: 'Welcome to GuaFlow', body: 'Private AI voice dictation. Speak naturally, get polished text — and your voice never leaves this Mac.' },
+  { emoji: '🔒', title: 'Welcome to Guagua', body: 'Private AI voice dictation. Speak naturally, get polished text — and your voice never leaves this Mac.' },
   { emoji: '🖥️', title: 'Hardware check', body: '', render: obHardware },
   { emoji: '⬇️', title: 'Download models', body: '', render: obModels },
-  { emoji: '🎙️', title: 'Permissions', body: 'GuaFlow needs your microphone (to hear you) and Accessibility (to type text into other apps). Both are used only locally.', render: obPermissions },
+  { emoji: '🎙️', title: 'Permissions', body: 'Guagua needs your microphone (to hear you) and Accessibility (to type text into other apps). Both are used only locally.', render: obPermissions },
   { emoji: '🛡️', title: 'Your voice stays here', body: 'Audio, transcripts and cleanup all happen on this device. No raw audio or text is ever uploaded.' },
   { emoji: '⌨️', title: 'Push to talk', body: 'Press your shortcut to start recording, press it again to stop. Text appears at your cursor.', render: obShortcut },
   { emoji: '✨', title: 'See it in action', body: '', render: obDemo },
@@ -412,9 +419,17 @@ async function renderOb() {
 
 async function obNext() {
   if (obIndex === OB_STEPS.length - 1) {
-    settings = await g.completeOnboarding();
-    $('#onboarding').hidden = true;
-    boot();
+    // Always dismiss onboarding, even if persisting the flag fails — otherwise
+    // a rejected IPC leaves the overlay stuck on the final step (Finish "dead").
+    try {
+      settings = await g.completeOnboarding();
+    } catch (e) {
+      toast(`Could not save setup: ${e.message}`);
+      settings = await g.getSettings();
+    } finally {
+      $('#onboarding').hidden = true;
+      boot();
+    }
     return;
   }
   obIndex++;
@@ -436,13 +451,18 @@ async function obModels() {
     const btn = document.getElementById('obDownload');
     if (btn) btn.onclick = async () => {
       btn.disabled = true; btn.textContent = 'Downloading…';
+      const bar = document.getElementById('ob-prog');
+      if (bar) bar.hidden = false;
       try { await g.downloadModel(tier.id); btn.textContent = 'Downloaded ✓'; }
       catch (e) { btn.textContent = 'Retry download'; btn.disabled = false; toast(e.message); }
+      finally { if (bar) bar.hidden = true; }
     };
-    g.onDownloadProgress(({ pct }) => { const b = document.getElementById('obDownload'); if (b) b.textContent = `Downloading ${pct}%`; });
+    // Progress listener is registered once at module load (see below) to avoid
+    // stacking a new subscription every time this step re-renders.
   }, 0);
-  return `<div class="ob-io card">GuaFlow processes your voice on this Mac. Download ~${tier.approxSizeGB} GB of AI models to continue.
+  return `<div class="ob-io card">Guagua processes your voice on this Mac. Download ~${tier.approxSizeGB} GB of AI models to continue.
     <br /><br /><button class="btn primary" id="obDownload">Download ${label(tier.id)} models</button>
+    <div class="progress" id="ob-prog" hidden><div></div></div>
     <br /><span class="muted">You can skip and download later from Models.</span></div>`;
 }
 

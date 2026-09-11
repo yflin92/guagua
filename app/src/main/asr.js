@@ -30,7 +30,7 @@ class AsrEngine {
 
   static locateBinary() {
     const candidates = [
-      process.env.GUAFLOW_WHISPER_BIN,
+      process.env.GUAGUA_WHISPER_BIN,
       path.join(process.resourcesPath || '', 'bin', 'whisper-cli'),
       path.join(process.resourcesPath || '', 'bin', 'main'),
       '/opt/homebrew/bin/whisper-cli',

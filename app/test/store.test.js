@@ -10,7 +10,7 @@ const { Store } = require('../src/main/store');
 const { ModelManager } = require('../src/main/models');
 
 function tmpStore() {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'guaflow-test-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'guagua-test-'));
   return { store: new Store(dir), dir };
 }
 
@@ -63,7 +63,7 @@ test('clearHistory removes the file', () => {
 });
 
 test('model manager recommends a tier within RAM budget', () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'guaflow-models-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'guagua-models-'));
   const mm = new ModelManager(dir);
   const rec = mm.recommend();
   assert.ok(['faster', 'balanced', 'best'].includes(rec.recommended));
@@ -71,7 +71,7 @@ test('model manager recommends a tier within RAM budget', () => {
 });
 
 test('model status reports not-downloaded initially', () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'guaflow-models2-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'guagua-models2-'));
   const mm = new ModelManager(dir);
   const status = mm.listStatus();
   assert.strictEqual(status.length, 3);

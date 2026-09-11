@@ -1,10 +1,10 @@
 {
-  "name": "guaflow",
-  "productName": "GuaFlow",
+  "name": "guagua",
+  "productName": "Guagua",
   "version": "0.1.0",
   "description": "Local-First AI Voice Dictation for macOS. Speak naturally. Get polished text. Keep your voice private.",
   "main": "src/main/main.js",
-  "author": "GuaFlow",
+  "author": "Guagua",
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "start": "electron .",
@@ -12,8 +12,8 @@
     "dist": "electron-builder --mac --arm64"
   },
   "build": {
-    "appId": "ai.guaflow.app",
-    "productName": "GuaFlow",
+    "appId": "ai.guagua.app",
+    "productName": "Guagua",
     "files": [
       "src/**/*",
       "assets/**/*",
@@ -30,8 +30,8 @@
         }
       ],
       "extendInfo": {
-        "NSMicrophoneUsageDescription": "GuaFlow records your voice locally to transcribe your speech on this Mac. Audio never leaves your device.",
-        "NSAppleEventsUsageDescription": "GuaFlow uses Accessibility to insert dictated text into the app you are using."
+        "NSMicrophoneUsageDescription": "guagua records your voice locally to transcribe your speech on this Mac. Audio never leaves your device.",
+        "NSAppleEventsUsageDescription": "guagua uses Accessibility to insert dictated text into the app you are using."
       }
     }
   },

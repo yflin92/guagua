@@ -8,7 +8,7 @@ const crypto = require('crypto');
 const { DEFAULT_SETTINGS } = require('../shared/constants');
 
 /**
- * A tiny local-only JSON store. Everything GuaFlow persists (settings,
+ * A tiny local-only JSON store. Everything Guagua persists (settings,
  * dictionary, history) lives on-device under the user data directory. Nothing
  * here ever touches the network — that is the whole point of the product.
  *
@@ -187,7 +187,7 @@ class Store {
 
 /** Convenience for tests / headless usage outside Electron. */
 function defaultUserDataDir() {
-  return path.join(os.homedir(), '.guaflow');
+  return path.join(os.homedir(), '.guagua');
 }
 
 module.exports = { Store, defaultUserDataDir };

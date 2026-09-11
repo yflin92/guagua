@@ -55,4 +55,4 @@ function sub(channel, cb) {
   return () => ipcRenderer.removeListener(channel, listener);
 }
 
-contextBridge.exposeInMainWorld('guaflow', api);
+contextBridge.exposeInMainWorld('guagua', api);

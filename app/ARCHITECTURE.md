@@ -1,12 +1,12 @@
-# GuaFlow Architecture & Privacy Design
+# guagua Architecture & Privacy Design
 
-This document describes how GuaFlow processes voice locally and how the
+This document describes how guagua processes voice locally and how the
 privacy guarantee is enforced *by architecture* rather than by policy
 (PRD §9.2, §43–44).
 
 ## Process model
 
-GuaFlow is an Electron app with a strict main/renderer split:
+guagua is an Electron app with a strict main/renderer split:
 
 - **Main process** (Node, privileged) — the only place with filesystem,
   network, child-process, and OS-integration access. It owns models, ASR/LLM,
@@ -15,7 +15,7 @@ GuaFlow is an Electron app with a strict main/renderer split:
   `contextIsolation: true`, `nodeIntegration: false`. They reach the main
   process only through a small, explicit preload bridge.
 - **Preload bridge** (`src/preload/preload.js`) — exposes a fixed set of methods
-  on `window.guaflow`. There is no general-purpose IPC and no raw Node access in
+  on `window.guagua`. There is no general-purpose IPC and no raw Node access in
   the UI.
 
 ## Dictation data flow
@@ -108,6 +108,6 @@ vocabulary). App category is derived locally by `appCategory()`.
 
 - `npm test` runs 22 unit tests covering the cleanup transforms (against the
   exact PRD examples), the encrypted store, and model recommendation.
-- `GUAFLOW_SMOKE=1` boots the real Electron app headlessly and asserts the
+- `GUAGUA_SMOKE=1` boots the real Electron app headlessly and asserts the
   window/preload/onboarding wiring, absence of renderer errors, and a working
   end-to-end cleanup pass.
