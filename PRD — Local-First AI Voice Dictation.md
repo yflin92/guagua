@@ -1,6 +1,6 @@
 # PRD — Local-First AI Voice Dictation
 
-**Product:** Working name: GuaFlow  
+**Product:** Working name: guagua  
 **Product area:** Private AI Voice Dictation  
 **Status:** Draft  
 **Owner:** Product  
@@ -10,7 +10,7 @@
 
 # 1. Executive Summary
 
-GuaFlow is a privacy-first AI voice dictation product that lets users write into virtually any application by speaking instead of typing.
+guagua is a privacy-first AI voice dictation product that lets users write into virtually any application by speaking instead of typing.
 
 The product experience is similar to modern AI dictation tools: users press a shortcut, speak naturally, and receive polished written text at their cursor.
 
@@ -22,7 +22,7 @@ Speech recognition, text cleanup, self-correction handling, formatting, and pers
 
 No raw audio is sent to a remote inference server for normal dictation.
 
-This allows GuaFlow to serve users who want AI-powered voice input but are unwilling or unable to send sensitive speech to third-party cloud services.
+This allows guagua to serve users who want AI-powered voice input but are unwilling or unable to send sensitive speech to third-party cloud services.
 
 The core product promise is:
 
@@ -71,7 +71,7 @@ and
 
 **private local dictation with lower intelligence or worse UX.**
 
-GuaFlow aims to eliminate that tradeoff.
+guagua aims to eliminate that tradeoff.
 
 ---
 
@@ -85,7 +85,7 @@ The long-term vision is:
 
 > **A local voice intelligence layer between the user and their operating system.**
 
-GuaFlow should eventually understand:
+guagua should eventually understand:
 
 - what the user said;
 - what they meant;
@@ -135,7 +135,7 @@ It is:
 
 ## G1 — Privacy by Architecture
 
-Normal dictation must not require transmission of raw audio or dictated content to GuaFlow infrastructure.
+Normal dictation must not require transmission of raw audio or dictated content to guagua infrastructure.
 
 Target:
 
@@ -175,7 +175,7 @@ Target:
 
 ## G4 — Universal Input
 
-GuaFlow should work in essentially any place the user can type.
+guagua should work in essentially any place the user can type.
 
 Examples:
 
@@ -395,7 +395,7 @@ A user on a high-end Apple Silicon machine may use a larger model than someone o
 
 # 10. Core Architecture
 
-GuaFlow consists of four primary local components.
+guagua consists of four primary local components.
 
 ## 10.1 Audio Capture Layer
 
@@ -477,7 +477,7 @@ Possible platform mechanisms:
 The primary interaction:
 
 1. User focuses a text field.
-2. User holds the GuaFlow shortcut.
+2. User holds the guagua shortcut.
 3. Recording begins immediately.
 4. User speaks.
 5. User releases the shortcut.
@@ -1170,7 +1170,7 @@ Because trust is central to the product, explicitly measure:
 
 Potential survey question:
 
-> "How confident are you that GuaFlow keeps your dictated content private?"
+> "How confident are you that guagua keeps your dictated content private?"
 
 ---
 
@@ -1194,7 +1194,7 @@ Example:
 
 Display:
 
-> "GuaFlow processes your voice on this Mac. Download 4.2 GB of AI models to continue."
+> "guagua processes your voice on this Mac. Download 4.2 GB of AI models to continue."
 
 ## Step 4 — Permissions
 
@@ -1506,7 +1506,7 @@ The goal is exceptional performance on a narrow transformation task.
 
 Traditional AI SaaS products improve through centralized user data.
 
-GuaFlow should instead improve through:
+guagua should instead improve through:
 
 - better base models;
 - synthetic training data;
@@ -1532,7 +1532,7 @@ The stronger positioning is:
 
 Potential comparison:
 
-| Capability | Traditional Dictation | Cloud AI Dictation | GuaFlow |
+| Capability | Traditional Dictation | Cloud AI Dictation | guagua |
 |---|---|---|---|
 | Voice transcription | Yes | Yes | Yes |
 | Intelligent rewriting | Limited | Yes | Yes |
@@ -1651,7 +1651,7 @@ while keeping sensitive context on-device.
 
 > "Summarize this page."
 
-At this point GuaFlow evolves from:
+At this point guagua evolves from:
 
 **private AI dictation**
 
@@ -1673,7 +1673,7 @@ and
 
 Its fundamental bet is that modern consumer hardware has become powerful enough for a narrow, highly optimized local AI system to provide a cloud-quality dictation experience.
 
-If successful, GuaFlow becomes more than an offline transcription utility.
+If successful, guagua becomes more than an offline transcription utility.
 
 It becomes:
 

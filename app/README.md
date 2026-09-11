@@ -1,14 +1,14 @@
-# GuaFlow — Local-First AI Voice Dictation (macOS)
+# guagua — Local-First AI Voice Dictation (macOS)
 
 > **Speak naturally. Get polished text. Keep your voice private.**
 
-GuaFlow is a privacy-first AI voice dictation desktop app. Press a shortcut,
+guagua is a privacy-first AI voice dictation desktop app. Press a shortcut,
 speak, and polished text appears at your cursor in any app — with **all**
 speech recognition and text cleanup running **on your device**. No raw audio or
 dictated text is ever sent to a server.
 
 This is an MVP implementation of the PRD *Local-First AI Voice Dictation*
-(working name **GuaFlow**), built with Electron so it runs on macOS (primary
+(working name **guagua**), built with Electron so it runs on macOS (primary
 target) and can be developed cross-platform.
 
 ---
@@ -93,7 +93,7 @@ permissions.
 
 ```bash
 npm test                      # 22 unit tests (cleanup, store, models)
-GUAFLOW_SMOKE=1 xvfb-run -a electron . --no-sandbox   # boot smoke test
+GUAGUA_SMOKE=1 xvfb-run -a electron . --no-sandbox   # boot smoke test
 ```
 
 The smoke test boots the real Electron app headlessly, verifies window/preload/

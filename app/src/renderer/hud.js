@@ -29,7 +29,7 @@ const STATUS_TEXT = {
   transcribing: ['● Transcribing', 'On-device speech model'],
   refining: ['● Polishing', 'On-device language model'],
   inserting: ['● Inserting', 'At your cursor'],
-  error: ['● Error', 'See GuaFlow window'],
+  error: ['● Error', 'See Guagua window'],
 };
 
 function setStatus(status) {
@@ -41,8 +41,8 @@ function setStatus(status) {
   else if (status === 'transcribing' || status === 'refining' || status === 'inserting') dot.classList.add('busy');
 }
 
-window.guaflow.onDictationStatus(({ status }) => { if (status) setStatus(status); });
-window.guaflow.onStateChanged((st) => { if (st?.status) setStatus(st.status); });
+window.guagua.onDictationStatus(({ status }) => { if (status) setStatus(status); });
+window.guagua.onStateChanged((st) => { if (st?.status) setStatus(st.status); });
 
 // ---- audio capture ---------------------------------------------------------
 
@@ -104,7 +104,7 @@ function stopCapture() {
   resetBars();
 
   // Hand the utterance to main for local ASR + cleanup + insertion.
-  window.guaflow.sendAudio({ samples, sampleRate, durationMs });
+  window.guagua.sendAudio({ samples, sampleRate, durationMs });
 }
 
 function teardown() {
@@ -129,7 +129,7 @@ function drawLevel(input) {
 
 function resetBars() { bars.forEach((b) => { b.style.height = '3px'; }); }
 
-window.guaflow.onStartCapture(() => startCapture());
-window.guaflow.onStopCapture(() => stopCapture());
+window.guagua.onStartCapture(() => startCapture());
+window.guagua.onStopCapture(() => stopCapture());
 
 setStatus('idle');

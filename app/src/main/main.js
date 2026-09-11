@@ -16,7 +16,7 @@ const { DictationController } = require('./dictation');
 const { TextInjector, getFrontAppContext } = require('./inject');
 
 /**
- * GuaFlow main process. Owns app lifecycle, the global push-to-talk shortcut,
+ * Guagua main process. Owns app lifecycle, the global push-to-talk shortcut,
  * the menubar tray, the HUD + main windows, and all privileged operations
  * (models, ASR/LLM, injection, storage). The renderer never touches the
  * filesystem or network directly.
@@ -93,7 +93,7 @@ function createMainWindow() {
     height: 680,
     minWidth: 720,
     minHeight: 560,
-    title: 'GuaFlow',
+    title: 'Guagua',
     show: false,
     webPreferences: {
       preload: path.join(__dirname, '..', 'preload', 'preload.js'),
@@ -155,7 +155,7 @@ function trayIcon(recording) {
 function buildTray() {
   tray = new Tray(trayIcon(false));
   updateTrayMenu();
-  tray.setToolTip('GuaFlow — Processing on this Mac');
+  tray.setToolTip('Guagua — Processing on this Mac');
   tray.on('click', () => openMain());
 }
 
@@ -164,10 +164,10 @@ function updateTrayMenu() {
   const menu = Menu.buildFromTemplate([
     { label: state.status === 'recording' ? '● Recording (local)' : '● Local — Processing on this Mac', enabled: false },
     { type: 'separator' },
-    { label: 'Open GuaFlow…', click: () => openMain() },
+    { label: 'Open Guagua…', click: () => openMain() },
     { label: 'Undo Last Insertion', click: () => injector.undo() },
     { type: 'separator' },
-    { label: 'Quit GuaFlow', click: () => app.quit() },
+    { label: 'Quit Guagua', click: () => app.quit() },
   ]);
   tray.setContextMenu(menu);
 }
@@ -332,7 +332,7 @@ async function finalizeUtterance(samples, sampleRate, durationMs) {
     });
   } catch (err) {
     setStatus('error');
-    if (err.code === 'ASR_NOT_READY') toast('Speech model not ready. Open GuaFlow to download.');
+    if (err.code === 'ASR_NOT_READY') toast('Speech model not ready. Open Guagua to download.');
     else toast(`Dictation error: ${err.message}`);
     setTimeout(() => setStatus('idle'), 1500);
   } finally {
@@ -388,7 +388,7 @@ app.whenReady().then(() => {
 
   // Smoke test: boot, verify wiring, exercise the demo pipeline, then exit.
   // Used in CI/dev environments without a display or real models.
-  if (process.env.GUAFLOW_SMOKE === '1') runSmokeTest();
+  if (process.env.GUAGUA_SMOKE === '1') runSmokeTest();
 });
 
 async function runSmokeTest() {
@@ -414,7 +414,7 @@ async function runSmokeTest() {
       ? new Promise((r) => w.webContents.once('did-finish-load', r)) : Promise.resolve()));
     await new Promise((r) => setTimeout(r, 500));
     // Confirm the preload bridge is exposed and boot ran without throwing.
-    const hasBridge = await mainWindow.webContents.executeJavaScript('typeof window.guaflow === "object" && typeof window.guaflow.getSettings === "function"');
+    const hasBridge = await mainWindow.webContents.executeJavaScript('typeof window.guagua === "object" && typeof window.guagua.getSettings === "function"');
     check('preload bridge exposed', hasBridge === true);
     const onboardingShown = await mainWindow.webContents.executeJavaScript('!document.getElementById("onboarding").hidden');
     check('onboarding overlay renders', onboardingShown === true);

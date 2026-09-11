@@ -1,6 +1,6 @@
 # guagua
 
-Local-First AI Voice Dictation for macOS — working name **GuaFlow**.
+Local-First AI Voice Dictation for macOS — working name **guagua**.
 
 > Speak naturally. Get polished text. Keep your voice private.
 
