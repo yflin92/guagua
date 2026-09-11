@@ -1,4 +1,4 @@
-# guagua
+# GuaFlow
 
 Local-First AI Voice Dictation for macOS — working name **GuaFlow**.
 
